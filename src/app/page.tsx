@@ -1,10 +1,11 @@
 import SendEmailButton from "./components/SendEmailButton";
+import Layout from "./components/Layout";
 
 export default function Home() {
   return (
-    <main>
+    <Layout>
       <h1>Main page</h1>
       <SendEmailButton />
-    </main>
+    </Layout>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
 
 const SendEmailButton: React.FC = () => {
   const [status, setStatus] = useState<string>("");
@@ -8,21 +9,20 @@ const SendEmailButton: React.FC = () => {
   const handleSendEmails = async () => {
     setStatus("Sending emails...");
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/send-email`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email/send-email`,
+        {}, // Send any data if needed
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
 
-      const data = await response.json();
-      if (response.ok) {
+      if (response.status === 200) {
         setStatus("Emails sent successfully!");
       } else {
-        setStatus(`Failed to send emails: ${data.error}`);
+        setStatus(`Failed to send emails: ${response.data.error}`);
       }
     } catch (error) {
       setStatus("Error sending emails.");
