@@ -18,7 +18,7 @@ export default function Layout({ children }: LayoutProps) {
             <Link href="/customers">Customer</Link>
           </li>
           <li>
-            <Link href="/mail">Mail</Link>
+            <Link href="/emails">Mail</Link>
           </li>
         </ul>
       </nav>

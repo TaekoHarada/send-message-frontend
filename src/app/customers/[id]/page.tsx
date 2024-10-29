@@ -4,8 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Customer } from "../../types"; // Importing the Customer interface
+import Layout from "../../components/Layout";
 
-export default function Page({ params }: { params: Promise<{ id: string }> }) {
+export default function CustomerDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const router = useRouter();
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -104,68 +109,90 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   if (loading) {
-    return <p>Loading customer details...</p>;
+    return <p className="text-center">Loading customer details...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="text-red-500 text-center">{error}</p>;
   }
 
   return (
-    <div>
-      <h1>{isEditing ? "Edit Customer" : "Create New Customer"}</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={customer?.name || ""}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={customer?.email || ""}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Phone:</label>
-          <input
-            type="tel"
-            name="phone"
-            value={customer?.phone || ""}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Latest Visit Date:</label>
-          <input
-            type="date"
-            name="latestVisitDate"
-            value={customer?.latestVisitDate || ""}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">
-          {isEditing ? "Update Customer" : "Create Customer"}
-        </button>
-      </form>
-      {isEditing && (
-        <button
-          onClick={handleDelete}
-          style={{ marginTop: "10px", backgroundColor: "red", color: "white" }}
+    <Layout>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-6">
+          {isEditing ? "Edit Customer" : "Create New Customer"}
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white p-6 rounded-lg shadow-md"
         >
-          Delete Customer
-        </button>
-      )}
-    </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Name:
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={customer?.name || ""}
+              onChange={handleChange}
+              required
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Email:
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={customer?.email || ""}
+              onChange={handleChange}
+              required
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Phone:
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              value={customer?.phone || ""}
+              onChange={handleChange}
+              required
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Latest Visit Date:
+            </label>
+            <input
+              type="date"
+              name="latestVisitDate"
+              value={customer?.latestVisitDate || ""}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            />
+          </div>
+          <button
+            type="submit"
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
+          >
+            {isEditing ? "Update Customer" : "Create Customer"}
+          </button>
+        </form>
+        {isEditing && (
+          <button
+            onClick={handleDelete}
+            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200"
+          >
+            Delete Customer
+          </button>
+        )}
+      </div>
+    </Layout>
   );
 }
